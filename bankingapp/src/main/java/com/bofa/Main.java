@@ -20,18 +20,22 @@ public class Main {
 
       //bean instances
       //loose coupling
+        //IOC
         FullName fullName = (FullName) context.getBean("fullName");
         //DI
         fullName.setFirstName(faker.name().firstName());
         fullName.setLastName(faker.name().lastName());
         fullName.setMiddleName(faker.name().nameWithMiddle());
-
+        //IOC
         Address address = (Address) context.getBean("address");
+        //DI
         address.setDoorNo(faker.address().buildingNumber());
         address.setCity(faker.address().city());
         address.setState(faker.address().state());
         address.setStreetName(faker.address().streetName());
+        //IOC
         Customer customer = (Customer) context.getBean("customer");
+        //DI
         customer.setAccountNo(faker.number().numberBetween(100000,10000000));
         customer.setEmail(faker.internet().emailAddress());
         customer.setPassword(faker.internet().password());
