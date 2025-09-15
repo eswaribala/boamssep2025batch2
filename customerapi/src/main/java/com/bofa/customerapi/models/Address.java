@@ -17,6 +17,9 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="Address_Id")
+    private long addressId;
+
     @Column(name="Door_No",nullable = false,length = 5)
     private String doorNo;
     @Column(name="Street_Name",nullable = false,length = 150)

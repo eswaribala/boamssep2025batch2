@@ -18,6 +18,6 @@ public class FullName {
     private String firstName;
     @Column(name="Last_Name",nullable = false,length = 50)
     private String lastName;
-    @Column(name="First_Name",nullable = true,length = 50)
+    @Column(name="Middle_Name",nullable = true,length = 50)
     private String middleName;
 }
