@@ -38,6 +38,7 @@ public class Main {
         customer.setAddress(address);
         customer.setFullName(fullName);
         customer.setEmail(faker.internet().emailAddress());
+        customer.setContactNo(faker.phoneNumber().phoneNumber());
         System.out.println("Customer"+customer);
 
     }
