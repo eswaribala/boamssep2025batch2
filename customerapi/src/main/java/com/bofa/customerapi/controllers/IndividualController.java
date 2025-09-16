@@ -80,9 +80,23 @@ public class IndividualController {
         }
     }
 
+    @GetMapping("/v1.0/firstName/{firstName}")
+    public ResponseEntity<GenericResponse> fetchIndividualByFirstName(@PathVariable("firstName") String firstName) {
+        List<Individual> individuals = individualService.findByFirstName(firstName);
+
+        if(individuals==null || individuals.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
+                    GenericResponse<>("Individual not found"));
+        }else {
+            List<IndividualResponse> individualResponses = individualMapper.toDTos(individuals);
+            return ResponseEntity.status(HttpStatus.OK).body(new
+                    GenericResponse<>(individualResponses));
+        }
+    }
+
 
     @PutMapping("/v1.0}")
-    public ResponseEntity<GenericResponse> fetchIndividualById(@RequestParam("accountNo") String accountNo,@RequestParam("email") String email,
+    public ResponseEntity<GenericResponse> updateIndividualById(@RequestParam("accountNo") String accountNo,@RequestParam("email") String email,
                                                                @RequestParam("contactNo") String contactNo,@RequestParam("password") String password){
         Individual individual = individualService.updateIndividual(accountNo,email,contactNo,password);
         if(individual==null){
