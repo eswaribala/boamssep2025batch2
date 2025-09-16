@@ -95,7 +95,7 @@ public class IndividualController {
     }
 
 
-    @PutMapping("/v1.0}")
+    @PutMapping("/v1.0")
     public ResponseEntity<GenericResponse> updateIndividualById(@RequestParam("accountNo") String accountNo,@RequestParam("email") String email,
                                                                @RequestParam("contactNo") String contactNo,@RequestParam("password") String password){
         Individual individual = individualService.updateIndividual(accountNo,email,contactNo,password);
