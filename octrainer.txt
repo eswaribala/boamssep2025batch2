@@ -1,3 +1,4 @@
+172.16.4.147
 The server is accessible via web console at:
   https://console-openshift-console.apps-crc.testing
 
