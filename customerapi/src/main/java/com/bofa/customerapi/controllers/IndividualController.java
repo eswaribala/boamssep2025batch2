@@ -21,8 +21,8 @@ public class IndividualController {
     @Autowired
     private IndividualService individualService;
 
-    @Autowired
-    private IndividualMapper individualMapper;
+   // @Autowired
+   // private IndividualMapper individualMapper;
 
     @PostMapping("/v1.0")
     public ResponseEntity<GenericResponse> addIndividual(@RequestBody IndividualRequest individualRequest) {
@@ -45,9 +45,9 @@ public class IndividualController {
         //Entity to DTO
         if (individualData != null) {
 
-            individualResponse=individualMapper.toDTos(individualData);
+         //   individualResponse=individualMapper.toDTos(individualData);
             return ResponseEntity.status(HttpStatus.CREATED).body(new
-                    GenericResponse<>(individualResponse));
+                    GenericResponse<>(individualData));
         }else
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new
@@ -62,9 +62,9 @@ public class IndividualController {
     @GetMapping("/v1.0")
     public ResponseEntity<GenericResponse> fetchAllIndividuals() {
        List<Individual> individuals = individualService.findAll();
-       List<IndividualResponse> individualResponses=individualMapper.toDTos(individuals);
+    //   List<IndividualResponse> individualResponses=individualMapper.toDTos(individuals);
          return ResponseEntity.status(HttpStatus.OK).body(new
-                GenericResponse<>(individualResponses));
+                GenericResponse<>(individuals));
     }
 
 
