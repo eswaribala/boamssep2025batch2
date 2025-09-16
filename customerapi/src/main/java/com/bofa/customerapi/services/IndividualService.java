@@ -8,13 +8,13 @@ import java.util.List;
 public interface IndividualService {
 
     Individual save(Individual individual);
-    Individual findById(long id);
+    Individual findById(String id);
     List<Individual> findByFirstName(String name);
     List<Individual> findAll();
 
-    Individual updateIndividual(long id, String email, String contactNo, String password);
+    Individual updateIndividual(String id, String email, String contactNo, String password);
 
-    boolean deleteIndividual(long id);
+    boolean deleteIndividual(String id);
 
 
 

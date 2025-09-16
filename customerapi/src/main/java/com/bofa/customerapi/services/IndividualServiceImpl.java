@@ -22,7 +22,7 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public Individual findById(long id) {
+    public Individual findById(String id) {
         return this.individualRepository.findById(id).orElseThrow(()->new
                 CustomerNotFoundException("Customer not found"));
     }
@@ -38,7 +38,7 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public Individual updateIndividual(long id, String email, String contactNo, String password) {
+    public Individual updateIndividual(String id, String email, String contactNo, String password) {
        Individual individual=this.individualRepository.findById(id)
                .orElseThrow(()->new CustomerNotFoundException("Customer not found"));
         if (individual != null) {
@@ -52,7 +52,7 @@ public class IndividualServiceImpl implements IndividualService {
     }
 
     @Override
-    public boolean deleteIndividual(long id) {
+    public boolean deleteIndividual(String id) {
         boolean status = false;
 
         Individual individual = this.individualRepository.findById(id)

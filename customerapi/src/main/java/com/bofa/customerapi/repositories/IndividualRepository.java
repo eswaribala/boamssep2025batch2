@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface IndividualRepository  extends JpaRepository<Individual,Long> {
+public interface IndividualRepository  extends JpaRepository<Individual,String> {
 
     List<Individual> findByFullName_FirstName(String firstName);
 }

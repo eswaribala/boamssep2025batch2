@@ -67,6 +67,45 @@ public class IndividualController {
                 GenericResponse<>(individualResponses));
     }
 
+    @GetMapping("/v1.0/{accountNo}")
+    public ResponseEntity<GenericResponse> fetchIndividualById(@PathVariable String accountNo) {
+        Individual individual = individualService.findById(accountNo);
+        if(individual==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
+                    GenericResponse<>("Individual not found"));
+        }else {
+            IndividualResponse individualResponse = individualMapper.toDTos(individual);
+            return ResponseEntity.status(HttpStatus.OK).body(new
+                    GenericResponse<>(individualResponse));
+        }
+    }
+
+
+    @PutMapping("/v1.0}")
+    public ResponseEntity<GenericResponse> fetchIndividualById(@RequestParam("accountNo") String accountNo,@RequestParam("email") String email,
+                                                               @RequestParam("contactNo") String contactNo,@RequestParam("password") String password){
+        Individual individual = individualService.updateIndividual(accountNo,email,contactNo,password);
+        if(individual==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
+                    GenericResponse<>("Individual not found"));
+        }else {
+            IndividualResponse individualResponse = individualMapper.toDTos(individual);
+            return ResponseEntity.status(HttpStatus.OK).body(new
+                    GenericResponse<>(individualResponse));
+        }
+    }
+
+    @DeleteMapping("/v1.0/{accountNo}")
+    public ResponseEntity<GenericResponse> deleteIndividual(@PathVariable String accountNo){
+        boolean status= individualService.deleteIndividual(accountNo);
+        if(status){
+            return ResponseEntity.status(HttpStatus.OK).body(new
+                    GenericResponse<>("Individual deleted successfully"));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
+                    GenericResponse<>("Individual not found"));
+        }
+        }
 
 
 }
