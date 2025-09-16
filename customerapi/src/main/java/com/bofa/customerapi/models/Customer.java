@@ -18,7 +18,7 @@ public class Customer {
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @AccountNo
     @Column(name="Account_No")
-    protected long accountNo;
+    protected String accountNo;
 
     @Embedded
     protected  FullName fullName;

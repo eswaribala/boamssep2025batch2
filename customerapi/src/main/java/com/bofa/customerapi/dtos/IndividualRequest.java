@@ -20,9 +20,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class IndividualRequest {
 
-    //add account no validation
-    @Pattern(regexp = "^\\d{13}$", message = "Account number must be exactly 13 digits")
-    private long accountNo;
+
 
 
     private FullName fullName;
