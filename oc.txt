@@ -3,14 +3,210 @@
 The server is accessible via web console at:
   https://console-openshift-console.apps-crc.testing
 
-Log in as administrator:
-  Username: kubeadmin
-  Password: c8cFQ-B5kdQ-zNU5B-rFCtR
+Host IP
 
-Log in as user:
-  Username: developer
-  Password: developer
+ssh username
 
-Use the 'oc' command line interface:
-  $ eval $(crc oc-env)
-  $ oc login -u developer https://api.crc.testing:6443
+ssh password
+
+Command for login to 'https://api.crc.testing:6443'
+
+172.16.4.147
+
+user01
+
+user01
+
+oc login -u user01 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user02
+
+user02
+
+oc login -u user02 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user03
+
+user03
+
+oc login -u user03 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user04
+
+user04
+
+oc login -u user04 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user05
+
+user05
+
+oc login -u user05 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user06
+
+user06
+
+oc login -u user06 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user07
+
+user07
+
+oc login -u user07 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user08
+
+user08
+
+oc login -u user08 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user09
+
+user09
+
+oc login -u user09 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user10
+
+user10
+
+oc login -u user10 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user11
+
+user11
+
+oc login -u user11 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user12
+
+user12
+
+oc login -u user12 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user13
+
+user13
+
+oc login -u user13 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user14
+
+user14
+
+oc login -u user14 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user15
+
+user15
+
+oc login -u user15 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user16
+
+user16
+
+oc login -u user16 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user17
+
+user17
+
+oc login -u user17 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user18
+
+user18
+
+oc login -u user18 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user19
+
+user19
+
+oc login -u user19 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user20
+
+user20
+
+oc login -u user20 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user21
+
+user21
+
+oc login -u user21 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user22
+
+user22
+
+oc login -u user22 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user23
+
+user23
+
+oc login -u user23 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user24
+
+user24
+
+oc login -u user24 -p password123 https://api.crc.testing:6443
+
+172.16.4.147
+
+user25
+
+user25
+
+oc login -u user25 -p password123 https://api.crc.testing:6443
