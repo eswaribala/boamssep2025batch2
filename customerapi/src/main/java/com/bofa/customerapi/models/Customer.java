@@ -26,7 +26,7 @@ public class Customer {
     @Column(name="Email",nullable = false,length = 150,unique = true)
     protected  String email;
 
-    @Column(name="Contact_No",nullable = false,length = 10)
+    @Column(name="Contact_No",nullable = false,length = 15)
     protected  String contactNo;
 
     @Column(name="Password",nullable = false,length = 10)
