@@ -42,16 +42,16 @@ services:
 #      EUREKA__CLIENT__SHOULDREGISTERWITHEUREKA: "true"
 #
 #      # Override what gets registered
-#      EUREKA__INSTANCE__APPNAME: userservice
-#      EUREKA__INSTANCE__HOSTNAME: userservice    # force Eureka to use "localhost"
-#      EUREKA__INSTANCE__NONSECUREPORT: "7076"      # advertise the HOST port
+#      EUREKA__INSTANCE__APPNAME: customerapi
+#      EUREKA__INSTANCE__HOSTNAME: customerapi    # force Eureka to use "localhost"
+#      EUREKA__INSTANCE__NONSECUREPORT: "7074"      # advertise the HOST port
 #      EUREKA__INSTANCE__PREFERIPADDRESS: "false"
 #      # make it unique if you scale
-#      EUREKA__INSTANCE__INSTANCEID: "userservice-localhost:7076"
+#      EUREKA__INSTANCE__INSTANCEID: "customerapi-localhost:7074"
 #
 #      # optional but recommended so Eureka health links work from host:
-#      EUREKA__INSTANCE__STATUSPAGEURL: "http://localhost:7076/health"
-#      EUREKA__INSTANCE__HEALTHCHECKURL: "http://localhost:7076/health"
+#      EUREKA__INSTANCE__STATUSPAGEURL: "http://localhost:7074health"
+#      EUREKA__INSTANCE__HEALTHCHECKURL: "http://localhost:7074/health"
 
     volumes:
       - /data/compose-app
