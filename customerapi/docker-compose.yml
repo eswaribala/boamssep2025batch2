@@ -32,12 +32,12 @@ services:
        #- 8060-8070:7070
         - "7074-7080:7074"
     networks: [bofanetwork]
-    #environment:
+    environment:
       #EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
 
 
       # Eureka client
-      #EUREKA__CLIENT__SERVICEURL: http://host.docker.internal:8761/eureka/
+      EUREKA__CLIENT__SERVICEURL: http://host.docker.internal:8761/eureka/
 #      EUREKA__CLIENT__SHOULDFETCHREGISTRY: "true"
 #      EUREKA__CLIENT__SHOULDREGISTERWITHEUREKA: "true"
 #
