@@ -32,6 +32,11 @@ docker exec -it <containerid>  psql -U postgres
 create database niitdevcustomerdb;
 exit
 
+#mysql 
+docker exec -it <containerid>  bin/bash
+#mysql -p
+#show databases;
+
 #connect to remote repository
 docker login
 docker tag <imagename> <dockerhubid/reponame:tagname>
