@@ -11,35 +11,30 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableConfigurationProperties(ProfileConfiguration.class)
+@EnableConfigurationProperties(VaultConfiguration.class)
 public class DataSourceConfiguration {
-/*
+
     @Value("${driverClassName}")
     private String driverClassName;
     @Value("${url}")
     private String url;
-    @Value("${mysql_username}")
-    private String userName;
-    @Value("${password}")
-    private String password;
 
- */
 
-    private final ProfileConfiguration profileConfiguration;
+    private final VaultConfiguration vaultConfiguration;
     private DataSourceBuilder dataSourceBuilder;
 
 
-    public DataSourceConfiguration(ProfileConfiguration _profileConfiguration) {
-        this.profileConfiguration = _profileConfiguration;
+    public DataSourceConfiguration(VaultConfiguration vaultConfiguration) {
+        this.vaultConfiguration = vaultConfiguration;
     }
     @Bean
     public DataSource getDataSource() {
 
         dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(profileConfiguration.getDriverClassName())
-                .url(profileConfiguration.getUrl())
-                .username(profileConfiguration.getMysql_username())
-                .password(profileConfiguration.getPassword());
+        dataSourceBuilder.driverClassName(driverClassName)
+                .url(url)
+                .username(vaultConfiguration.getMysqlusername())
+                .password(vaultConfiguration.getMysqlpassword());
 
         return dataSourceBuilder.build();
     }
