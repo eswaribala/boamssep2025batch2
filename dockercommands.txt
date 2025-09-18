@@ -13,6 +13,14 @@ docker run --name=niit-mongo-c1 -p 27017:27017 -d mongo
 #create mongodb client
 docker exec -it <containerid> bin/bash
 #mongosh
+#to show databse
+show dbs;
+#to access database
+use <dbname>;
+# to check collections
+show collections;
+# to access document
+db.<collectionname>.find();
 #to docker build the customer api
 docker build -f dockerfile -t customerapi .
 #create docker network
