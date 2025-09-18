@@ -1,5 +1,7 @@
 package com.bofa.customerapi.services;
 
+import com.bofa.customerapi.dtos.IndividualMapper;
+import com.bofa.customerapi.dtos.IndividualResponse;
 import com.bofa.customerapi.exceptions.CustomerNotFoundException;
 import com.bofa.customerapi.models.Individual;
 import com.bofa.customerapi.repositories.IndividualRepository;
@@ -23,6 +25,9 @@ public class IndividualServiceImpl implements IndividualService {
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
+
+    @Autowired
+    private IndividualMapper individualMapper;
 
     @Value("${topicName}")
     private String topicName;
@@ -79,9 +84,12 @@ public class IndividualServiceImpl implements IndividualService {
     public CompletableFuture<SendResult<String, Object>> publishToTopic(String id) throws JsonProcessingException {
         Individual individual = this.individualRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+
+
         if (individual != null) {
+            IndividualResponse individualResponse = individualMapper.toDTos(individual);
             ObjectWriter ow = new ObjectMapper().writer();
-            String json= ow.writeValueAsString(individual);
+            String json= ow.writeValueAsString(individualResponse);
             return kafkaTemplate.send(topicName, json);
         }
         return null;
