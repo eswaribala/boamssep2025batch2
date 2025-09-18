@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  account-app:
+    image: accountapi
+    build:
+      context: ./
+      dockerfile: dockerfile
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 15
+        window: 50s
+    ports:
+       #- 8060-8070:7070
+        - "9094:9094"
+    networks: [bofanetwork]
+
+
+    volumes:
+      - /data/compose-app
+    #networks:
+      #- boanetwork   
+    
+
+### put all the networks here
+#networks:
+  #boanetwork:
+networks:
+  bofanetwork:
+    external: true
+
+  
