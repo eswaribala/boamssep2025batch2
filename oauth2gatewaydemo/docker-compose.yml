@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+
+  oauth-gateway-api:
+    image: oathugatewayapp
+    build:
+      context: ./
+      dockerfile: dockerfile
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 15
+        window: 50s
+    ports:
+       #- 9060-9070:7072
+        - 7060:7060
+    networks: [bofanetwork]
+    volumes:
+      - /data/compose-app
+    #networks:
+      #- boanetwork   
+    
+
+### put all the networks here
+#networks:
+  #boanetwork:
+networks:
+  bofanetwork:
+    external: true
+
+  

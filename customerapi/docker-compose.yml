@@ -30,7 +30,7 @@ services:
         window: 50s
     ports:
        #- 8060-8070:7070
-        - "7074-7080:7074"
+        - "7074-7076:7074"
     networks: [bofanetwork]
     environment:
       #EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka

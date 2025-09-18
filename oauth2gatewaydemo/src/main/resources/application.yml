@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      #default-filters:
+        #- TokenRelay
+      routes:
+        - id: USERSERVICE
+          uri: http://localhost:7072
+          predicates:
+            - Path=/swagger-ui.html, /v3/api-docs/**, /swagger-ui/**,/users/**,/roles/**
+          filters:
+            - RewritePath=/USERSERVICE/(?<segment>.*), /$\\{segment}
+      discovery:
+        locator:
+          enabled: true
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: http://host.docker.internal:8080/realms/master/protocol/openid-connect/token
+            authorization-uri: http://host.docker.internal:8080/realms/master/protocol/openid-connect/auth
+            userinfo-uri: http://host.docker.internal:8080/realms/master/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+        registration:
+          keycloak-with-developer-scope:
+            provider: keycloak
+            client-id: user1
+            client-secret: Wgt2A26fV7FMWsb2gufRWcdkHD4rmErL
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://host.docker.internal:7060/login/oauth2/code/keycloak"
+          keycloak-with-manager-scope:
+            provider: keycloak
+            client-id: user2
+            client-secret: xbIkRec3HPRuymhZIhY2RNpaQNr3jqLi
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://host.docker.internal:7060/login/oauth2/code/keycloak"
+  securitySchemes:
+    my_oAuth_security_schema:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://localhost:7070/oauth2/authorize
+          scopes:
+            read_access: read data
+            write_access: modify data
+
+server.port: 7060
+
+logging.level:
+  org.springframework.cloud.gateway: DEBUG
+  org.springframework.security: DEBUG
+  org.springframework.web.reactive.function.client: TRACE

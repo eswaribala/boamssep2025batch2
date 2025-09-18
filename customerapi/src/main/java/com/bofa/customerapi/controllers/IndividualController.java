@@ -25,6 +25,7 @@ public class IndividualController {
     private IndividualMapper individualMapper;
 
     @PostMapping("/v1.0")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
     public ResponseEntity<GenericResponse> addIndividual(@RequestBody IndividualRequest individualRequest) {
 
         //DTO to Entity
@@ -60,6 +61,7 @@ public class IndividualController {
 
 
     @GetMapping("/v1.0")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
     public ResponseEntity<GenericResponse> fetchAllIndividuals() {
        List<Individual> individuals = individualService.findAll();
        List<IndividualResponse> individualResponses=individualMapper.toDTos(individuals);
@@ -68,6 +70,7 @@ public class IndividualController {
     }
 
     @GetMapping("/v1.0/{accountNo}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
     public ResponseEntity<GenericResponse> fetchIndividualById(@PathVariable String accountNo) {
         Individual individual = individualService.findById(accountNo);
         if(individual==null){
@@ -81,6 +84,7 @@ public class IndividualController {
     }
 
     @GetMapping("/v1.0/firstName/{firstName}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
     public ResponseEntity<GenericResponse> fetchIndividualByFirstName(@PathVariable("firstName") String firstName) {
         List<Individual> individuals = individualService.findByFirstName(firstName);
 
@@ -96,6 +100,7 @@ public class IndividualController {
 
 
     @PutMapping("/v1.0")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
     public ResponseEntity<GenericResponse> updateIndividualById(@RequestParam("accountNo") String accountNo,@RequestParam("email") String email,
                                                                @RequestParam("contactNo") String contactNo,@RequestParam("password") String password){
         Individual individual = individualService.updateIndividual(accountNo,email,contactNo,password);
@@ -110,6 +115,7 @@ public class IndividualController {
     }
 
     @DeleteMapping("/v1.0/{accountNo}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
     public ResponseEntity<GenericResponse> deleteIndividual(@PathVariable String accountNo){
         boolean status= individualService.deleteIndividual(accountNo);
         if(status){
