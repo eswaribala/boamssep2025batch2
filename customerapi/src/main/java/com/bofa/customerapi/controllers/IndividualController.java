@@ -7,12 +7,15 @@ import com.bofa.customerapi.dtos.IndividualResponse;
 import com.bofa.customerapi.models.FullName;
 import com.bofa.customerapi.models.Individual;
 import com.bofa.customerapi.services.IndividualService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.websocket.SendResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("individuals")
@@ -126,6 +129,21 @@ public class IndividualController {
                     GenericResponse<>("Individual not found"));
         }
         }
+
+    @GetMapping("/v1.0/publish/{accountNo}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+    public CompletableFuture<ResponseEntity<String>> publishIndividualById(@PathVariable String accountNo) throws JsonProcessingException {
+       //completable future
+        return individualService.publishToTopic(accountNo)
+                .thenApply(result->ResponseEntity.status(HttpStatus.OK)
+                        .body(result.getRecordMetadata().topic()+","+result.getRecordMetadata().partition()+","+result.getRecordMetadata().offset()))
+                .exceptionally(ex-> {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+                });
+
+    }
+
+
 
 
 }
