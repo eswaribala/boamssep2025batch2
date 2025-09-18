@@ -20,23 +20,23 @@ spring:
       client:
         provider:
           keycloak:
-            token-uri: http://host.docker.internal:8080/realms/master/protocol/openid-connect/token
-            authorization-uri: http://host.docker.internal:8080/realms/master/protocol/openid-connect/auth
-            userinfo-uri: http://host.docker.internal:8080/realms/master/protocol/openid-connect/userinfo
+            token-uri: http://localhost:7070/auth/realms/master/protocol/openid-connect/token
+            authorization-uri: http://localhost:7070/auth/realms/master/protocol/openid-connect/auth
+            userinfo-uri: http://localhost:7070/auth/realms/master/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
         registration:
-          keycloak-with-developer-scope:
+          keycloak-with-sre-scope:
             provider: keycloak
-            client-id: user1
-            client-secret: Wgt2A26fV7FMWsb2gufRWcdkHD4rmErL
+            client-id: user3
+            client-secret: aA9lTeard5DgfAfnTii1Lu38l6z3SCO7
             authorization-grant-type: authorization_code
-            redirect-uri: "http://host.docker.internal:7060/login/oauth2/code/keycloak"
-          keycloak-with-manager-scope:
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+          keycloak-with-architect-scope:
             provider: keycloak
-            client-id: user2
-            client-secret: xbIkRec3HPRuymhZIhY2RNpaQNr3jqLi
+            client-id: user4
+            client-secret: So39DejcXFMSiv2WN4IRR8I3hyG5nt0l
             authorization-grant-type: authorization_code
-            redirect-uri: "http://host.docker.internal:7060/login/oauth2/code/keycloak"
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
   securitySchemes:
     my_oAuth_security_schema:
       type: oauth2
