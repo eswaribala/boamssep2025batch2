@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: customerdeploy
+  name: customerdeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customerdeploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: customerdeploy
+    spec:
+      containers:
+      - image: eswaribala/boamstrainingbatch2:customerapi
+        name: customerapp
+        resources: {}          
+        
+        env:
+            - name: MYSQL_URL
+              value: jdbc:mysql://mysql:3306/bofacustomerproddb?useSSL=false
+            #- name: OTEL_EXPORTER_JAEGER_ENDPOINT
+              #value: "http://localhost:14250"
+            #- name: OTEL_SERVICE_NAME
+              #value: "patientapi"
+            #- name: OTEL_TRACES_SAMPLER
+              #value: "always_on"
+      #imagePullSecrets:  
+      #- name: globalaks-key
+
+status: {}
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: customerservice
+  name: customerservice
+spec:
+    
+  ports:
+  - protocol: TCP
+    port: 7074
+    targetPort: 7074
+    name: http
+  
+  selector:
+    app: customerdeploy
+  type: LoadBalancer
+

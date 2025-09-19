@@ -1,0 +1,139 @@
+pipeline {
+  agent any
+
+  tools {
+    jdk 'java21'       // match names in Manage Jenkins → Tools
+    maven 'maven'
+  }
+
+  parameters {
+    string(name: 'BRANCH', defaultValue: 'javaprojects', description: 'Git branch')
+    string(name: 'MODULE_DIR', defaultValue: 'customerapi', description: 'Path to module (use "." if at root)')
+  }
+
+ /*  options {
+    timestamps()
+    ansiColor('xterm')
+    buildDiscarder(logRotator(numToKeepStr: '25'))
+  } */
+
+  environment {
+    SONAR_HOST = 'https://sonarcloud.io'
+    SONAR_ORG  = 'eswaribala'                 // <-- set your org
+    SONAR_KEY  = 'eswaribala_niitmsaug2025'   // <-- set your project key
+    SONAR_TOKEN = '8a6eb4e6769ba90d67eaedffb9bbc390a11a9295'
+
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git branch: params.BRANCH, url: 'https://github.com/eswaribala/niitmsaug2025.git'
+      }
+    }
+
+    stage('Build & Test') {
+      steps {
+        dir(params.MODULE_DIR) {
+          bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
+        }
+      }
+      post {
+        always {
+          // find reports anywhere under workspace
+          junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+        }
+      }
+    }
+
+    stage('Sonar Analysis') {
+      steps {
+        withSonarQubeEnv('sonarqube') {  // Configure in Manage Jenkins → Configure System
+          withCredentials([string(credentialsId: '024db136-7ddd-4bef-83d5-82af1bdc9f9a', variable: 'SONAR_TOKEN')]) {
+            dir(params.MODULE_DIR) {
+              bat """
+mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG% -Dsonar.projectKey=%SONAR_KEY% -Dsonar.login=%SONAR_TOKEN% -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+              """.trim()
+            }
+          }
+        }
+      }
+    }
+
+   /*  stage('Quality Gate') {
+      steps {
+        timeout(time: 15, unit: 'MINUTES') {
+          script {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+              error "Quality Gate failed: ${qg.status}"
+            }
+          }
+        }
+      }
+    } */
+
+    stage('Package & Archive') {
+      steps {
+        dir(params.MODULE_DIR) {
+          bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
+        }
+        archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+      }
+    }
+    stage('Docker_Deploy') {
+          steps {
+            dir(params.MODULE_DIR) {
+              bat 'docker build -f dockerfile -t customerapiv11 .'
+            }
+            archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+          }
+        }
+
+     stage('Kube_postgres_volume') {
+               steps {
+                 dir(params.MODULE_DIR) {
+                   bat 'kubectl apply -f postgres-pv.yaml'
+                 }
+                 archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+               }
+             }
+     stage('Kube_postgres_deploy') {
+                    steps {
+                      dir(params.MODULE_DIR) {
+                        bat 'kubectl apply -f postgres-deployment.yaml'
+                      }
+                      archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+                    }
+                  }
+     stage('Kube_cutsomer_deploy') {
+                    steps {
+                      dir(params.MODULE_DIR) {
+                        bat 'kubectl apply -f deployment-v20.yaml'
+                      }
+                      archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
+                    }
+                  }
+  }
+
+  post {
+      success {
+        slackSend(channel: '#jenkinsnotifyaug2025',
+                  message: "✅ ${env.JOB_NAME} #${env.BUILD_NUMBER} succeeded on ${env.NODE_NAME}")
+      }
+      failure {
+        slackSend(channel: '#jenkinsnotifyaug2025',
+                  message: "❌ ${env.JOB_NAME} #${env.BUILD_NUMBER} failed. Check: ${env.BUILD_URL}")
+      }
+      unstable {
+        slackSend(channel: '#jenkinsnotifyaug2025',
+                  message: "⚠️ ${env.JOB_NAME} #${env.BUILD_NUMBER} is UNSTABLE. ${env.BUILD_URL}")
+      }
+      always {
+        // Optional: brief summary for every build
+        slackSend(channel: '#jenkinsnotifyaug2025',
+                  message: "ℹ️ ${env.JOB_NAME} #${env.BUILD_NUMBER} finished with ${currentBuild.currentResult}")
+      }
+    }
+
+  }
