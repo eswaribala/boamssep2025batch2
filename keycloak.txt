@@ -1,1 +1,11 @@
 https://drive.google.com/file/d/1hWWXceYKGE85RYYfXfBTdcJ5EGyI9qMS/view?usp=sharing
+
+
+Valid redirect url
+http://host.docker.internal:7074/login/oauth2/code/*
+http://host.docker.internal:7060/login/oauth2/code/*
+http://localhost:7060/login/oauth2/code/*
+http://localhost:7074/login/oauth2/code/*
+http://host.docker.internal:7074/swagger-ui/oauth2-redirect.html
+
+
