@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   oauth-gateway-api:
-    image: oathugatewayapp
+    image: oauthgatewayapp
     build:
       context: ./
       dockerfile: dockerfile
