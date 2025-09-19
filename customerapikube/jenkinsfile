@@ -7,28 +7,16 @@ pipeline {
   }
 
   parameters {
-    string(name: 'BRANCH', defaultValue: 'javaprojects', description: 'Git branch')
-    string(name: 'MODULE_DIR', defaultValue: 'customerapi', description: 'Path to module (use "." if at root)')
+    string(name: 'BRANCH', defaultValue: 'projects', description: 'Git branch')
+    string(name: 'MODULE_DIR', defaultValue: 'customerapikube', description: 'Path to module (use "." if at root)')
   }
 
- /*  options {
-    timestamps()
-    ansiColor('xterm')
-    buildDiscarder(logRotator(numToKeepStr: '25'))
-  } */
 
-  environment {
-    SONAR_HOST = 'https://sonarcloud.io'
-    SONAR_ORG  = 'eswaribala'                 // <-- set your org
-    SONAR_KEY  = 'eswaribala_niitmsaug2025'   // <-- set your project key
-    SONAR_TOKEN = '8a6eb4e6769ba90d67eaedffb9bbc390a11a9295'
-
-  }
 
   stages {
     stage('Checkout') {
       steps {
-        git branch: params.BRANCH, url: 'https://github.com/eswaribala/niitmsaug2025.git'
+        git branch: params.BRANCH, url: 'https://github.com/eswaribala/boamssep2025batch2.git'
       }
     }
 
@@ -38,40 +26,10 @@ pipeline {
           bat 'mvn -B -U clean install -DskipTests -Dmaven.test.skip=true'
         }
       }
-      post {
-        always {
-          // find reports anywhere under workspace
-          junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
-        }
-      }
+
     }
 
-    stage('Sonar Analysis') {
-      steps {
-        withSonarQubeEnv('sonarqube') {  // Configure in Manage Jenkins → Configure System
-          withCredentials([string(credentialsId: '024db136-7ddd-4bef-83d5-82af1bdc9f9a', variable: 'SONAR_TOKEN')]) {
-            dir(params.MODULE_DIR) {
-              bat """
-mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG% -Dsonar.projectKey=%SONAR_KEY% -Dsonar.login=%SONAR_TOKEN% -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-              """.trim()
-            }
-          }
-        }
-      }
-    }
 
-   /*  stage('Quality Gate') {
-      steps {
-        timeout(time: 15, unit: 'MINUTES') {
-          script {
-            def qg = waitForQualityGate()
-            if (qg.status != 'OK') {
-              error "Quality Gate failed: ${qg.status}"
-            }
-          }
-        }
-      }
-    } */
 
     stage('Package & Archive') {
       steps {
@@ -90,18 +48,18 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
           }
         }
 
-     stage('Kube_postgres_volume') {
+     stage('Kube_mysql_volume') {
                steps {
                  dir(params.MODULE_DIR) {
-                   bat 'kubectl apply -f postgres-pv.yaml'
+                   bat 'kubectl apply -f mysql-pv.yaml'
                  }
                  archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
                }
              }
-     stage('Kube_postgres_deploy') {
+     stage('Kube_mysql_deploy') {
                     steps {
                       dir(params.MODULE_DIR) {
-                        bat 'kubectl apply -f postgres-deployment.yaml'
+                        bat 'kubectl apply -f mysql-deployment.yaml'
                       }
                       archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
                     }
@@ -109,7 +67,7 @@ mvn -B sonar:sonar -Dsonar.host.url=%SONAR_HOST% -Dsonar.organization=%SONAR_ORG
      stage('Kube_cutsomer_deploy') {
                     steps {
                       dir(params.MODULE_DIR) {
-                        bat 'kubectl apply -f deployment-v20.yaml'
+                        bat 'kubectl apply -f deployment-v33.yaml'
                       }
                       archiveArtifacts artifacts: "${params.MODULE_DIR}/target/*.jar", fingerprint: true
                     }
